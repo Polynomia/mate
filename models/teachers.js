@@ -1,0 +1,19 @@
+const mongoose = require('./db/mongoose')
+const Schema = mongoose.Schema;
+const ObjectId = Schema.Types.ObjectId;
+
+const TeacherSchema = new Schema({
+
+    name: String,
+    city: String,
+    school: String,
+    country: String,
+    website: String,
+    description: String,
+    mail: {type: String, unique:true},
+    courses: { type: ObjectId, ref: 'Course' },
+    password: String
+});
+
+
+mongoose.model('Teacher', TeacherSchema);
