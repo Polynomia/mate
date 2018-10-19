@@ -8,7 +8,8 @@ const AnswerSchema = new Schema({
     form_id: { type: ObjectId, ref: 'Form' },
     course_id: { type: ObjectId, ref: 'Course' },
     content: String, 
-    choices: [Number],
+    choice: Number,
+    multi_choice: [Number]
 });
 
 

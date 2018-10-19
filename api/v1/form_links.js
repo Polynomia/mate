@@ -105,9 +105,9 @@ const getLink = async (req, res) => {
 const Form =async (req, res) => {
     let seq = parseInt(req.params.seq, 10);
     let qs = [];
-    let f;
+    let f,fl;
     try {
-        let fl = await model.FormLink.findOne({"seq": seq})
+        fl = await model.FormLink.findOne({"seq": seq})
         if(fl) {
             try {
                 f = await model.Form.findById(fl.form_id)
@@ -154,11 +154,26 @@ const Form =async (req, res) => {
         res.json({success: false})
         return
     }
-    res.json({
-        success: true,
-        form: f,
-        questions: qs
-    })
+
+    try {
+        let commonQues =  await model.Question.findOne(
+            {"type": "common"}
+        )
+        res.json({
+            success: true,
+            form: f,
+            questions: qs,
+            common: commonQues,
+            course_id: fl.course_id
+        })
+
+    } catch (err) {
+        console.log(err)
+        res.json({success: false})
+        return
+    }
+    
+    
 }
 
 module.exports = {

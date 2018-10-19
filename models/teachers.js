@@ -12,7 +12,8 @@ const TeacherSchema = new Schema({
     description: String,
     mail: {type: String, unique:true},
     courses: { type: ObjectId, ref: 'Course' },
-    password: String
+    password: String,
+    create_time: Date
 });
 
 

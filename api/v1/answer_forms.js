@@ -57,7 +57,8 @@ const saveAnswer = async (req, res) => {
                         course_id: req.body.course_id,
                         form_id: req.body.form_id,
                         content: answer.content,
-                        choices: answer.choices
+                        multi_choice: answer.multi_choice,
+                        choice: answer.choice
                     })
                     try {
                         let newAns = await answerCreate.save()
@@ -69,7 +70,6 @@ const saveAnswer = async (req, res) => {
                         return 
                     }     
                 }
-                console.log("**************")
                 let newAnsForm = new model.AnswerForm({
                     student_id: req.body.student_id,
                     form_id: req.body.form_id,

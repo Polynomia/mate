@@ -12,6 +12,7 @@ const QuestionSchema = new Schema({
     type: {type: String, enum:['multi_choice', 'single_choice', 'text', 'common']},
     content: String, 
     choices: [String],
+    ans: Number
 });
 
 QuestionSchema.pre('remove', function(next) {

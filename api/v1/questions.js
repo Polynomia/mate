@@ -1,6 +1,6 @@
 const model = require('../../models')
 var async = require("async");
-
+/*
 const Create = (req, res) => {
     model.Form.findById(req.body.form_id, function(err, formDoc){
         if (err) {
@@ -52,6 +52,29 @@ const Create = (req, res) => {
         }
     })
 
+}
+*/
+
+const Create = (req, res) => {
+    let questionCreate = new model.Question({
+        form_id: req.body.form_id,
+        type: req.body.type,
+        content: req.body.content,
+        choices: req.body.choices,
+        ans: req.body.ans
+    })
+    questionCreate.save((err, question) => {
+        if (err) {
+            console.log(err)
+            res.json({
+                success: false
+            })
+        }
+        res.json({
+            success: true,
+            question_id: question._id
+        })
+    })
 }
 
 const Question = (req, res) => {
