@@ -16,7 +16,7 @@ const Register = (req, res) => {
         description: req.body.description,
         mail: req.body.mail,
 		password: sha1(req.body.password),
-		token: createToken(this.mail, this._id)
+		token: createToken("teacher", this._id)
     })
 
 	// 将 objectid 转换为 用户创建时间
@@ -95,7 +95,7 @@ const Login = (req, res) => {
 	let teacherLogin = new model.Teacher({
 		mail: req.body.mail,
 		password: sha1(req.body.password),
-		token: createToken(this.mail, this._id)
+	//	token: createToken("teacher", this._id)
 	})
 	model.Teacher.findOne({
 		mail: teacherLogin.mail
@@ -115,7 +115,7 @@ const Login = (req, res) => {
 				// _id: doc._id,
 				accountInfo: doc,
 				// token 信息验证
-				token: createToken(mail, doc._id)
+				token: createToken("teacher", doc._id)
 			})
 		} else {
 			console.log('密码错误')
