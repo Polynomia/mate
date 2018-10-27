@@ -60,7 +60,7 @@ const DelteCourse = (req, res) => {
 
 const UpdateCourse = (req, res) => {
 
-	model.Course.findById(req.body.course_id, (err, doc) => {
+	model.Course.findById(req.body._id, (err, doc) => {
 		if(err) {
 			console.log(err)
 			res.json({

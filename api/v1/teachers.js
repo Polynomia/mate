@@ -111,11 +111,9 @@ const Login = (req, res) => {
 			let mail = req.body.mail
 			res.json({
 				success: true,
-				mail: doc.mail,
-				_id: doc._id,
-				// 账户创建日期
-				time: moment(objectIdToTimestamp(doc._id))
-					.format('YYYY-MM-DD HH:mm:ss'),
+				// mail: doc.mail,
+				// _id: doc._id,
+				accountInfo: doc,
 				// token 信息验证
 				token: createToken(mail, doc._id)
 			})
