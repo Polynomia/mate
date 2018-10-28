@@ -1,5 +1,6 @@
 const model = require('../../models')
 var async = require("async");
+const getToken = require('../middlewares/getToken')
 
 
 const getStatus =async (req, res) => {
@@ -37,6 +38,31 @@ const getStatus =async (req, res) => {
 
 const saveAnswer = async (req, res) => {
     let ansList = [];
+    let user = null;
+//检查类型与权限
+    if (req.body.type === 'student' || req.body.type === 'self') {
+        user = getToken(req, res)
+        if (!user) {
+            console.log("用户不存在")
+            res.json({
+                success: false,
+                reason: "用户不存在"
+            })
+            return
+        }
+            //教师可以看问卷，但是不能填写学生问卷
+        if (user.type !== 'student' && req.body.type === 'student') {
+            res.json({
+                success: false,
+                reason: "只有学生可以填写"
+            })
+            return
+        }
+    }
+    
+    console.log("@@@@@@@")
+    console.log(req.body.student_id)
+
     try {
         let Af = await model.AnswerForm.findOne(
             {
