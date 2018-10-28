@@ -8,7 +8,8 @@ const AnswerFormSchema = new Schema({
     form_id: { type: ObjectId, ref: 'Form' },
     course_id: { type: ObjectId, ref: 'Course' },
     answer_ids: [{ type: ObjectId, ref: 'Answer' }],
-    is_valid: { type: Boolean, default: false}
+    is_valid: { type: Boolean, default: false},
+    type: String
 });
 
 
