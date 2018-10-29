@@ -50,6 +50,7 @@ const LoginByJaccount = (req, nRes) => {
                                         student_id: jaccountEntity.code,
                                         school: "上海交通大学",
                                         city: "上海",
+                                        organize: jaccountEntity.organize.name,
                                         gender: jaccountEntity.gender,
                                         mail: jaccountEntity.email
                                     })
@@ -110,6 +111,7 @@ const Register = (req, res) => {
         city: req.body.city,
         school: req.body.school,
         gender: req.body.gender,
+        organize: req.body.organize,
         student_id: req.body.student_id,
         mail: req.body.mail,
         password: sha1(req.body.password),
@@ -148,6 +150,7 @@ const Register = (req, res) => {
                             name: newStu.name,
                             city: newStu.city,
                             school: newStu.school,
+                            organize: newStu.organize,
                             gender: newStu.gender,
                             student_id: newStu.student_id,
                             mail: newStu.mail
@@ -195,10 +198,11 @@ const Login = (req, res) => {
 					_id: stuDoc._id,
 					name: stuDoc.name,
 					city: stuDoc.city,
-					school: stuDoc.school,
+                    school: stuDoc.school,
+                    organize: stuDoc.organize,
 					mail: stuDoc.mail,
 					create_time: stuDoc.create_time,
-					student_id: stuDoc.student_id
+                    student_id: stuDoc.student_id
 				},
 				// token 信息验证
 				token: createToken("student", stuDoc._id)
