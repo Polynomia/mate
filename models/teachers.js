@@ -6,6 +6,10 @@ const TeacherSchema = new Schema({
 
     name: String,
     city: String,
+    title: String,
+    age: Number,
+    gender: {type: String, enum:['male', 'female']},
+    organize: String,
     school: String,
     country: String,
     website: String,

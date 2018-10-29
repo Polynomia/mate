@@ -10,7 +10,11 @@ const Register = (req, res) => {
     let teacherRegister = new model.Teacher({
         name: req.body.name,
         city: req.body.city,
-        school: req.body.school,
+		school: req.body.school,
+		age: req.body.age,
+		organize: req.body.organize,
+		gender: req.body.gender,
+		title: req.body.title,
         country: req.body.country,
 		website: req.body.website,
         description: req.body.description,
@@ -55,6 +59,10 @@ const Register = (req, res) => {
 						website: doc.website,
 						description: doc.description,
 						mail: doc.mail,
+						age: doc.age,
+						organize: doc.organize,
+						gender: doc.gender,
+						title: doc.title,
 						create_time: doc.create_time
 					}
 				})
@@ -89,7 +97,11 @@ const UpadateTeacherInfo = (req, res) => {
             school: req.body.school,
             country: req.body.country,
             website: req.body.website,
-            description: req.body.description,
+			description: req.body.description,
+			age: req.body.age,
+			organize: req.body.organize,
+			gender: req.body.gender,
+			title: req.body.title,
             // mail: req.body.mail
 		},
 		{new: true},
@@ -149,6 +161,10 @@ const Login = (req, res) => {
 					description: doc.description,
 					mail: doc.mail,
 					create_time: doc.create_time,
+					age: doc.age,
+					organize: doc.organize,
+					gender: doc.gender,
+					title: doc.title,
 					courses: doc.courses
 				},
 				// token 信息验证
