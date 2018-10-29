@@ -6,6 +6,7 @@ const ObjectId = Schema.Types.ObjectId;
 const FormSchema = new Schema({
 
     title: String,
+    description: String,
     question_ids: [{ type: ObjectId, ref: 'Question' }],
     create_time: { type: Date, default: Date.now },
 });
