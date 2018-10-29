@@ -60,6 +60,7 @@ const Create = (req, res) => {
         form_id: req.body.form_id,
         type: req.body.type,
         content: req.body.content,
+        must: req.body.content,
         choices: req.body.choices,
         ans: req.body.ans
     })

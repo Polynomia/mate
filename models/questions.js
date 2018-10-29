@@ -10,6 +10,7 @@ const QuestionSchema = new Schema({
 
     form_id: { type: ObjectId, ref: 'Form' },
     type: {type: String, enum:['multi_choice', 'single_choice', 'text', 'common']},
+    must: { type: Boolean, default: true },
     content: String, 
     choices: [String],
     ans: Number

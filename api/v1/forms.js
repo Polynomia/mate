@@ -18,6 +18,7 @@ const Create = async (req, res) => {
 				form_id: newForm._id,
 				type: question.type,
 				content: question.content,
+				must: question.must,
 				choices: question.choices
 			})
 			try {
@@ -36,9 +37,7 @@ const Create = async (req, res) => {
 	}
 
 
-	console.log("**************")
-	console.log(qs)
-	
+
 	model.Form.findByIdAndUpdate(
 		id,
 		{
