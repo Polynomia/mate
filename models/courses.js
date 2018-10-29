@@ -10,6 +10,8 @@ const CourseSchema = new Schema({
     end_time: Date,
     student_num: Number,
     location: String,
+    type: {type: String, enum:['专业选修课', '专业核心课', '专业基础课', '通识课', '其他']},
+    organize: String,
     teacher_id: { type: ObjectId, ref: 'Teacher' },
     students: [{ type: ObjectId, ref: 'Student' }],
     self_form: {type: String, default: "5bc88fb10e16c3bda5150822"},

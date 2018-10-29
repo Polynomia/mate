@@ -8,6 +8,8 @@ const Create = (req, res) => {
         begin_time: req.body.begin_time,
         teacher_id: req.body.teacher_id,
 		student_num: req.body.student_num,
+		type: req.body.type,
+		organize: req.body.organize,
 		location: req.body.location,
     })
 
@@ -80,6 +82,8 @@ const UpdateCourse = (req, res) => {
         doc.end_time = req.body.end_time
 		doc.student_num = req.body.student_num
 		doc.location = req.body.location
+		doc.organize = req.body.organize
+		doc.type = req.body.type
 
 		doc.save((err, newDoc) => {
 			if(err){
