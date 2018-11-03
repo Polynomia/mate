@@ -1,10 +1,12 @@
 const model = require('../../models')
+const config = require('config-lite')(__dirname)
 var async = require("async");
 const sha1 = require('sha1');
 const moment = require('moment');
 const objectIdToTimestamp = require('objectid-to-timestamp');
 const createToken = require('../middlewares/createToken');
 const getToken = require('../middlewares/getToken')
+const request = require('request')
 
 const Register = (req, res) => {
     let teacherRegister = new model.Teacher({
@@ -72,7 +74,99 @@ const Register = (req, res) => {
 }
 
 //TODO 增加jaccount登录
-const LoginByJaccount = (req, res) => {
+const LoginByJaccount = (req, nRes) => {
+	let jaccountEntity = null
+	let isSuccess = true
+	let user = null
+	request
+		.post({
+			url: config.TOKEN_URL,
+			form: {
+				client_id: config.J_CLIENT_ID,
+				client_secret: config.J_CLIENT_SECRET,
+				grant_type: 'authorization_code',
+				code: req.body.code,
+				redirect_uri: config.REDIRECT_URI
+			}
+		}, function (err, res, body) {
+			let access_token = JSON.parse(body).access_token
+			if (err) isSuccess = false
+			if (res.statusCode === 200 && isSuccess) {
+				request.get({
+					url: config.PROFILE_URL + access_token
+				}, function (err, res, body) {
+					if (err) isSuccess = false
+					if (res.statusCode !== 200) isSuccess = false
+					jaccountEntity = JSON.parse(body).entities[0]
+					if (isSuccess && jaccountEntity) {
+						model.User.findOne({
+							j_id: jaccountEntity.id
+						}, (err, userDoc) => {
+							if (err) {
+								isSuccess = false
+								nRes.json({
+									success: false
+								})
+								return
+							}
+							if (!userDoc) {
+								let userRegister = new model.Teacher({
+									j_id: jaccountEntity.id,
+									name: jaccountEntity.name,
+									school: "上海交通大学",
+									city: "上海",
+									organize: jaccountEntity.organize.name,
+                                    gender: jaccountEntity.gender,
+                                    mail: jaccountEntity.email
+								})
+								userRegister.create_time = moment(objectIdToTimestamp(userRegister._id))
+								.format('YYYY-MM-DD HH:mm:ss');
+								userRegister.save((err, userDoc) => {
+									if (err) {
+										isSuccess = false
+										nRes.json({
+											success: isSuccess
+										})
+										return
+									}
+									user = userDoc
+									if (!isSuccess || !user) {
+										nRes.json({ success: false })
+									} else {
+										nRes.json({
+											success: isSuccess,
+											accountInfo: user,
+                                            // token 信息验证
+                                            token: createToken("teacher", user._id)
+										})
+									}
+								})
+							} else {
+								user = userDoc
+								if (!isSuccess || !user) {
+									nRes.json({ success: isSuccess })
+								} else {
+									nRes.json({
+										success: isSuccess,
+										accountInfo: user,
+										// token 信息验证
+										token: createToken("teacher", user._id)
+									})
+								}
+							}
+						})
+					} else {
+						nRes.json({
+							success: false
+						})
+					}
+				})
+			} else {
+                nRes.json({
+                    success: false
+                })
+            }
+		})
 
 }
 
