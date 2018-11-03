@@ -22,10 +22,14 @@ var APIRequire = function() {
     router.post('/teacher/register', teachers.Register);
     router.post('/teacher/updateInfo', teachers.UpadateTeacherInfo);
     router.post('/teacher/login', teachers.Login);
+    router.post('/teacher/Jlogin', teachers.LoginByJaccount);
     router.post('/teacher/updatePwd', teachers.UpdatePassword);
 
     router.post('/student/register', students.Register);
     router.post('/student/login', students.Login);
+    router.post('/student/Jlogin', students.LoginByJaccount);
+    router.post('/student/updateInfo', students.UpadateStudentInfo);
+    router.post('/student/updatePwd', students.UpdatePassword);
 
     router.post('/ansForm/save', answer_forms.saveAnswer);
     router.get('/ansForm/getStatus', answer_forms.getStatus);
