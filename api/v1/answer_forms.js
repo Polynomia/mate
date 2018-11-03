@@ -39,26 +39,41 @@ const getStatus =async (req, res) => {
 const saveAnswer = async (req, res) => {
     let ansList = [];
     let user = null;
-//检查类型与权限
-    if (req.body.type === 'student' || req.body.type === 'self') {
-        user = getToken(req, res)
-        if (!user) {
-            console.log("用户不存在")
-            res.json({
-                success: false,
-                reason: "用户不存在"
-            })
-            return
-        }
-            //教师可以看问卷，但是不能填写学生问卷
-        if (user.type !== 'student' && req.body.type === 'student') {
-            res.json({
-                success: false,
-                reason: "只有学生可以填写"
-            })
-            return
-        }
+    let teacher_id = undefined
+    let student_id = undefined
+    user = getToken(req, res)
+    if (!user) {
+        console.log("用户不存在")
+        res.json({
+            success: false,
+            reason: "用户不存在"
+        })
+        return
     }
+//检查类型与权限
+        
+        //教师可以看问卷，但是不能填写学生问卷
+    if (user.type !== 'student' && req.body.type === 'student') {
+        res.json({
+            success: false,
+            reason: "只有学生可以填写"
+        })
+        return
+    }
+    if(user.type === 'student') {
+        try {
+            let s = await model.Student.findById(user.id)
+            student_id = s.student_id
+        } catch (err) {
+            res.json({
+                success: false
+            })
+            return 
+        }
+    } else {
+        teacher_id = user.id
+    }
+
     
     console.log("@@@@@@@")
     console.log(req.body.student_id)
@@ -68,7 +83,8 @@ const saveAnswer = async (req, res) => {
             {
                 "form_id": req.body.form_id,
                 "course_id": req.body.course_id,
-                "student_id": req.body.student_id
+                "student_id": student_id,
+                "teacher_id": teacher_id
             }
         )
         if(Af) {
@@ -84,7 +100,10 @@ const saveAnswer = async (req, res) => {
                         form_id: req.body.form_id,
                         content: answer.content,
                         multi_choice: answer.multi_choice,
-                        choice: answer.choice
+                        choice: answer.choice,
+                        student_id: student_id,
+                        teacher_id: teacher_id,
+                        is_valid: req.body.is_valid
                     })
                     try {
                         let newAns = await answerCreate.save()
@@ -97,9 +116,10 @@ const saveAnswer = async (req, res) => {
                     }     
                 }
                 let newAnsForm = new model.AnswerForm({
-                    student_id: req.body.student_id,
+                    student_id: student_id,
                     form_id: req.body.form_id,
                     course_id: req.body.course_id,
+                    teacher_id: teacher_id,
                     answer_ids: ansList,
                     is_valid: req.body.is_valid
                 })

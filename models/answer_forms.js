@@ -4,7 +4,8 @@ const ObjectId = Schema.Types.ObjectId;
 
 const AnswerFormSchema = new Schema({
 
-    student_id: { type: ObjectId, ref: 'Student' },
+    student_id: String,
+    teacher_id: { type: ObjectId, ref: 'Teacher' },
     form_id: { type: ObjectId, ref: 'Form' },
     course_id: { type: ObjectId, ref: 'Course' },
     answer_ids: [{ type: ObjectId, ref: 'Answer' }],

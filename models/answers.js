@@ -9,7 +9,10 @@ const AnswerSchema = new Schema({
     course_id: { type: ObjectId, ref: 'Course' },
     content: String, 
     choice: Number,
-    multi_choice: [Number]
+    student_id: String,
+    teacher_id: { type: ObjectId, ref: 'Teacher' },
+    multi_choice: [Number],
+    is_valid: { type: Boolean, default: false},
 });
 
 
