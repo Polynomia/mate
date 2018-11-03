@@ -6,6 +6,7 @@ const moment = require('moment');
 const objectIdToTimestamp = require('objectid-to-timestamp');
 const createToken = require('../middlewares/createToken');
 const getToken = require('../middlewares/getToken')
+const request = require('request')
 
 
 //TODO: maybe have res bug
@@ -17,15 +18,15 @@ const LoginByJaccount = (req, nRes) => {
         .post({
             url: config.TOKEN_URL,
 			form: {
-				client_id: config.client_id,
-				client_secret: config.client_secret,
+				client_id: config.J_CLIENT_ID,
+				client_secret: config.J_CLIENT_SECRET,
 				grant_type: 'authorization_code',
 				code: req.body.code,
 				redirect_uri: config.REDIRECT_URI
 			}
         }, function (err, res, body) {
-            let access_token = JSON.parse(body).access_token
             if (err) isSuccess = false
+            let access_token = JSON.parse(body).access_token
             if (res.statusCode === 200 && isSuccess) {
                 request.get({
 					url: config.PROFILE_URL + access_token
@@ -222,9 +223,108 @@ const Login = (req, res) => {
     })
 }
 
+const UpadateStudentInfo = (req, res) => {
+	let student = getToken(req, res)
+	if (!student) {
+		console.log("账号不存在")
+		res.json({
+			success: false
+		})
+		return
+	}
+//暂时不能更新学号
+    model.Student.findByIdAndUpdate(
+		student.id,
+		{
+            name: req.body.name,
+            city: req.body.city,
+            school: req.body.school,
+            organize: req.body.organize,
+            gender: req.body.gender,
+            grade: req.body.grade,
+            mail: req.body.mail
+		},
+		{new: true},
+		(err, updatedUser) => {
+			if (err) {
+				console.log(err)
+				res.json({
+					success: false
+				})
+				return
+			} else {
+				console.log('更新用户信息成功')
+				res.json({
+					success: true
+					// token: createToken(updatedUser.mail, updatedUser._id)
+				})
+			}
+		})
+    
+}
+
+
+const UpdatePassword = (req, res) => {
+	let student = getToken(req, res)
+	if (!student) {
+		console.log("账号不存在")
+		res.json({
+			success: false,
+			reason: "账号不存在"
+		})
+	} else {
+		let updatePassword = {
+			oldPassword: req.body.oldPassword,
+			newPassword: req.body.newPassword
+		}
+		model.Student.findById(student.id, (err, doc) => {
+			if (err) {
+				console.log(err)
+				res.json({
+					success: false,
+				})
+				return
+			}
+			if (!doc) {
+				res.json({ success: false,
+					reason: "帐号不存在"
+				})
+				return
+			}
+			if (doc.password !== sha1(updatePassword.oldPassword)) {
+				console.log('密码错误')
+				res.json({
+					success: false,
+					reason: "密码错误"
+				})
+			} else {
+				model.Student.findOneAndUpdate(
+					student.id,
+					{ password: sha1(updatePassword.newPassword) },
+					(err, updatedUser) => {
+						if (err) {
+							console.log(err)
+							res.json({
+								success: false
+							})
+						} else {
+							console.log('更新密码成功')
+							res.json({
+								success: true
+							})
+						}
+					}
+				)
+			}
+		})
+	}
+}
+
 
 module.exports = {
    LoginByJaccount,
    Register,
-   Login
+   Login,
+   UpadateStudentInfo,
+   UpdatePassword
 }
