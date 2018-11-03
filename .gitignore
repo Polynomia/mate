@@ -13,6 +13,7 @@ pids
 *.pid.lock
 local.js
 dev.js
+debug.js
 testCrypto.js
 formData/
 mock/
