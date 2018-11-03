@@ -10,6 +10,7 @@ require('./teachers')
 require('./answers')
 require('./answer_forms')
 require('./form_links')
+require('./reports')
 
 exports.Answer = mongoose.model('Answer');
 exports.Course = mongoose.model('Course');
@@ -19,3 +20,4 @@ exports.Student = mongoose.model('Student');
 exports.Teacher = mongoose.model('Teacher');
 exports.AnswerForm = mongoose.model('AnswerForm');
 exports.FormLink = mongoose.model('FormLink')
+exports.Report = mongoose.model('Report')

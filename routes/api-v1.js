@@ -7,6 +7,7 @@ var answer_forms = require('../api/v1/answer_forms')
 var form_links = require('../api/v1/form_links')
 var questions = require('../api/v1/questions')
 var students = require('../api/v1/students')
+var reports = require('../api/v1/reports')
 const checkToken = require('../api/middlewares/checkToken')
 var qr = require('qr-image');
 
@@ -35,6 +36,8 @@ var APIRequire = function() {
     router.get('/form/:seq', form_links.Form)
 
     router.post('/question/create', questions.Create)
+
+    router.get('/report/create', reports.CreateReport)
 
     router.get('/qr', function(req, res){
         var code = qr.image(req.query.detailedURL, { size: Number(req.query.size)});
