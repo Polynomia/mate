@@ -113,6 +113,7 @@ const Register = (req, res) => {
         gender: req.body.gender,
         organize: req.body.organize,
         student_id: req.body.student_id,
+        grade: req.body.grade,
         mail: req.body.mail,
         password: sha1(req.body.password),
     })
@@ -153,6 +154,7 @@ const Register = (req, res) => {
                             organize: newStu.organize,
                             gender: newStu.gender,
                             student_id: newStu.student_id,
+                            grade: newStu.grade,
                             mail: newStu.mail
                         },
                         token: createToken('student', newStu._id),
@@ -200,7 +202,9 @@ const Login = (req, res) => {
 					city: stuDoc.city,
                     school: stuDoc.school,
                     organize: stuDoc.organize,
-					mail: stuDoc.mail,
+                    mail: stuDoc.mail,
+                    gender: stuDoc.gender,
+                    grade: stuDoc.grade,
 					create_time: stuDoc.create_time,
                     student_id: stuDoc.student_id
 				},

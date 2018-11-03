@@ -11,6 +11,7 @@ const StudentSchema = new Schema({
     gender: {type: String, enum:['male', 'female']},
     student_id: {type: String, unique:true},
     mail: String,
+    grade: String,
     password: String,
     create_time: Date
 });
