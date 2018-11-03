@@ -1,5 +1,6 @@
 const model = require('../../models')
 var async = require("async");
+const config = require('config-lite')(__dirname)
 
 const Create = (req, res) => {
     let courseCreate = new model.Course({
@@ -11,6 +12,9 @@ const Create = (req, res) => {
 		type: req.body.type,
 		organize: req.body.organize,
 		location: req.body.location,
+		self_form: config.self_form,
+		expert_form: config.expert_form,
+		student_form: config.student_form
     })
 
     model.Teacher.findById(req.body.teacher_id, function (err, teacherDoc){

@@ -2,6 +2,7 @@ const mongoose = require('./db/mongoose')
 const Answer = require('./answers.js')
 const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
+const config = require('config-lite')(__dirname)
 
 const CourseSchema = new Schema({
 
@@ -14,9 +15,9 @@ const CourseSchema = new Schema({
     organize: String,
     teacher_id: { type: ObjectId, ref: 'Teacher' },
     students: [{ type: ObjectId, ref: 'Student' }],
-    self_form: {type: String, default: "5bc88fb10e16c3bda5150822"},
-    expert_form: {type: String, default: "5bc8901b0e16c3bda5150826"},
-    student_form: {type: String, default: "5bc88f660e16c3bda515081e"},
+    self_form: {type: String, default: config.self_form},
+    expert_form: {type: String, default: config.expert_form},
+    student_form: {type: String, default: config.student_form},
     self_form_link: String,
     expert_form_link: String,
     student_form_link: String
