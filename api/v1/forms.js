@@ -54,7 +54,8 @@ const Create = async (req, res) => {
 				console.log('save successfully')
 				res.json({
 					success: true,
-					from_id: updatedForm._id
+					form_id: updatedForm._id,
+					question_ids: qs
 				})
 			}
 		}
