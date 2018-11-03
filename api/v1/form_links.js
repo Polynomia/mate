@@ -108,49 +108,30 @@ const Form =async (req, res) => {
     let seq = parseInt(req.params.seq, 10);
     let qs = [];
     let f,fl;
-    let user = null;
+    let user = getToken(req, res);
+    if (!user) {
+        console.log("用户不存在")
+        res.json({
+            success: false,
+            reason: "用户不存在"
+        })
+        return
+    }
+
+
     try {
         fl = await model.FormLink.findOne({"seq": seq})
         if(fl) {
 
         //问卷填写权限
 
-            //学生问卷需要登录
-            if (fl.type === 'student') {
-                user = getToken(req, res)
-                if (!user) {
-                    console.log("用户不存在")
-                    res.json({
-                        success: false,
-                        reason: "用户不存在"
-                    })
-                    return
-                }
-                // if (user.type !== 'student') {
-                //     res.json({
-                //         success: false,
-                //         reason: "只有学生能填写此问卷"
-                //     })
-                //     return
-                // }
-            } 
-
             //自评只有开课教师可以填写
             if (fl.type === 'self') {
-                user = getToken(req, res)
-                if (!user) {
-                    console.log("用户不存在")
-                    res.json({
-                        success: false,
-                        reason: "用户不存在"
-                    })
-                    return
-                }
                 //防止学生填写
                 if (user.type !== 'teacher') {
                     res.json({
                         success: false,
-                        reason: "只有教师本人可以填写"
+                        reason: "只有教师可以填写"
                     })
                     return
                 }
@@ -172,6 +153,35 @@ const Form =async (req, res) => {
                     return
                 }
             }
+            if(fl.type === 'expert') {
+                //防止学生填写
+                if (user.type !== 'teacher') {
+                    res.json({
+                        success: false,
+                        reason: "只有教师可以填写"
+                    })
+                    return
+                }
+                //本人不可以填写
+                try {
+                    let cour = await model.Course.findById(fl.course_id)
+                    if (String(cour.teacher_id) === user.id) {
+                        console.log(user.id)
+                        console.log(cour.teacher_id)
+                        res.json({
+                            success: false,
+                            reason: "本人不可以填写"
+                        })
+                        return
+                    }
+                } catch (err) {
+                    console.log(err)
+                    res.json({success: false})
+                    return
+                }
+
+            }
+
 
             try {
                 f = await model.Form.findById(fl.form_id)
