@@ -91,6 +91,7 @@ const LoginByJaccount = (req, nRes) => {
 			}
 		}, function (err, res, body) {
 			console.log("########11111")
+			console.log(res.statusCode)
 			let access_token = JSON.parse(body).access_token
 			if (err) isSuccess = false
 			if (res.statusCode === 200 && isSuccess) {
@@ -166,6 +167,7 @@ const LoginByJaccount = (req, nRes) => {
 					}
 				})
 			} else {
+				console.log("@@@@@@@#@#@@#@#")
                 nRes.json({
                     success: false
                 })
