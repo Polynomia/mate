@@ -86,7 +86,7 @@ const LoginByJaccount = (req, nRes) => {
 				client_secret: config.J_CLIENT_SECRET,
 				grant_type: 'authorization_code',
 				code: req.body.code,
-				redirect_uri: config.REDIRECT_URI
+				redirect_uri: config.BASE_URI + config.REDIRECT_URI_TEA
 			}
 		}, function (err, res, body) {
 			let access_token = JSON.parse(body).access_token
