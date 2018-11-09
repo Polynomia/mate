@@ -78,7 +78,6 @@ const LoginByJaccount = (req, nRes) => {
 	let jaccountEntity = null
 	let isSuccess = true
 	let user = null
-	console.log("########")
 	request
 		.post({
 			url: config.TOKEN_URL,
@@ -90,16 +89,13 @@ const LoginByJaccount = (req, nRes) => {
 				redirect_uri: config.BASE_URI + config.REDIRECT_URI_TEA
 			}
 		}, function (err, res, body) {
-			console.log("########11111")
 			console.log(res.statusCode)
 			let access_token = JSON.parse(body).access_token
 			if (err) isSuccess = false
 			if (res.statusCode === 200 && isSuccess) {
-				console.log("########333333")
 				request.get({
 					url: config.PROFILE_URL + access_token
 				}, function (err, res, body) {
-					console.log("########222222")
 					if (err) isSuccess = false
 					if (res.statusCode !== 200) isSuccess = false
 					jaccountEntity = JSON.parse(body).entities[0]
@@ -167,7 +163,6 @@ const LoginByJaccount = (req, nRes) => {
 					}
 				})
 			} else {
-				console.log("@@@@@@@#@#@@#@#")
                 nRes.json({
                     success: false
                 })
