@@ -93,7 +93,7 @@ const LoginByJaccount = (req, nRes) => {
 			let access_token = JSON.parse(body).access_token
 			if (err) isSuccess = false
 			console.log("poset success")
-			console.log(re.statusCode)
+			console.log(res.statusCode)
 			if (res.statusCode === 200 && isSuccess) {
 				console.log("satuscode is 200")
 				request.get({
