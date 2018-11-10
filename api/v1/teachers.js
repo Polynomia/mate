@@ -78,6 +78,7 @@ const LoginByJaccount = (req, nRes) => {
 	let jaccountEntity = null
 	let isSuccess = true
 	let user = null
+	console.log("there is start api")
 	request
 		.post({
 			url: config.TOKEN_URL,
@@ -89,17 +90,22 @@ const LoginByJaccount = (req, nRes) => {
 				redirect_uri: config.BASE_URI + config.REDIRECT_URI_TEA
 			}
 		}, function (err, res, body) {
-			console.log(res.statusCode)
 			let access_token = JSON.parse(body).access_token
 			if (err) isSuccess = false
+			console.log("poset success")
+			console.log(re.statusCode)
 			if (res.statusCode === 200 && isSuccess) {
+				console.log("satuscode is 200")
 				request.get({
 					url: config.PROFILE_URL + access_token
 				}, function (err, res, body) {
 					if (err) isSuccess = false
+					console.log("get profule successfully")
+					console.log(res.statusCode)
 					if (res.statusCode !== 200) isSuccess = false
 					jaccountEntity = JSON.parse(body).entities[0]
 					if (isSuccess && jaccountEntity) {
+						console.log("get profile")
 						model.Teacher.findOne({
 							j_id: jaccountEntity.id
 						}, (err, userDoc) => {
