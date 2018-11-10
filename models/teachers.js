@@ -15,7 +15,8 @@ const TeacherSchema = new Schema({
     country: String,
     website: String,
     description: String,
-    mail: {type: String, unique:true},
+    //mail: {type: String, unique:true},
+    mail: String,
     courses: { type: ObjectId, ref: 'Course' },
     password: String,
     create_time: Date
