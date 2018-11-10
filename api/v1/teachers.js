@@ -126,7 +126,7 @@ const LoginByJaccount = (req, nRes) => {
 									city: "上海",
 									organize: jaccountEntity.organize.name,
                                     gender: jaccountEntity.gender,
-                                    mail: jaccountEntity.email
+                                    //mail: jaccountEntity.email
 								})
 								userRegister.create_time = moment(objectIdToTimestamp(userRegister._id))
 								.format('YYYY-MM-DD HH:mm:ss');
