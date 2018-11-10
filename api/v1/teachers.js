@@ -110,6 +110,8 @@ const LoginByJaccount = (req, nRes) => {
 							j_id: jaccountEntity.id
 						}, (err, userDoc) => {
 							if (err) {
+								console.log("#####")
+								console.log(err)
 								isSuccess = false
 								nRes.json({
 									success: false
@@ -130,6 +132,8 @@ const LoginByJaccount = (req, nRes) => {
 								.format('YYYY-MM-DD HH:mm:ss');
 								userRegister.save((err, userDoc) => {
 									if (err) {
+										console.log("#####11111")
+										console.log(err)
 										isSuccess = false
 										nRes.json({
 											success: isSuccess
