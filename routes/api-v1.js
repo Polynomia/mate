@@ -18,6 +18,7 @@ var APIRequire = function() {
     router.post('/course/update', checkToken, courses.UpdateCourse);
     router.post('/course/delete', checkToken, courses.DelteCourse);
     router.post('/course/create', checkToken, courses.Create);
+    router.get('/course/info', checkToken, courses.getCourseInfo);
 
     router.post('/teacher/register', teachers.Register);
     router.post('/teacher/updateInfo', teachers.UpadateTeacherInfo);

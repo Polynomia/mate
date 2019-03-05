@@ -109,10 +109,29 @@ const UpdateCourse = (req, res) => {
 }
 
 
+const getCourseInfo = (req, res) => {
+	model.Course.findById(req.query.course_id, (err, doc) => {
+		if(err) {
+			console.log(err)
+			res.json({
+				success: false
+			})
+			// res.send(err)
+			return
+		}
+		if (!doc) {
+			res.json({success: false})
+			return
+		}
+		res.send(doc)
+	})
+}
+
 module.exports = {
     Create,
     Courses,
     DelteCourse,
-    UpdateCourse
+	UpdateCourse,
+	getCourseInfo
     
 }

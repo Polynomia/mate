@@ -462,7 +462,8 @@ const CreateReport  = async (req, res) => {
             {
                 $group: {
                     _id: '$form_id',
-                    value: {$avg: '$choice'}
+                    //value: {$avg: '$choice'}
+                    value: {$push: '$choice'}
                 }
             }
         ])
@@ -486,7 +487,7 @@ const CreateReport  = async (req, res) => {
             {
                 $group: {
                     _id: '$form_id',
-                    value: {$avg: '$choice'}
+                    value: {$push: '$choice'}
                 }
             }
         ])
