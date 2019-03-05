@@ -8,6 +8,7 @@ const TeacherSchema = new Schema({
     city: String,
     title: String,
     age: Number,
+    senioryty: Number,
     j_id: String,
     gender: {type: String, enum:['male', 'female']},
     organize: String,
